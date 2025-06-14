@@ -1,0 +1,17 @@
+/*
+ * IncFile1.h
+ *
+ * Created: 5/21/2024 2:57:53 AM
+ *  Author: Hassan
+ */ 
+
+
+#ifndef INCFILE1_H_
+#define INCFILE1_H_
+void USART_Init(unsigned int ubrr);
+void USART_Transmit( unsigned char data );
+unsigned char USART_Receive( void );
+void UART_SendString( char *str);
+
+
+#endif /* INCFILE1_H_ */
