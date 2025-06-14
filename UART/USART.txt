@@ -1,0 +1,51 @@
+/*
+ * ADC.c
+ *
+ * Created: 31/03/2024 17:05:45
+ * Author : HASSAN
+ */ 
+#define F_CPU 8000000UL
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include "Functions.h"
+
+#define FOSC 8000000// Clock Speed
+#define BAUD 9600
+//#define MYUBRR (FOSC/(16*BAUD))-1
+char ch;
+char data;
+
+ISR(USART_RXC_vect)
+{
+	char ch;
+	ch=UDR;
+	USART_Transmit(ch);
+	USART_Transmit(ch);
+	USART_Transmit(ch);
+	USART_Transmit(ch);
+	USART_Transmit(ch);
+}
+
+int main() {
+	// Initialize UART
+	USART_Init(0x33);
+	sei();
+	UART_SendString("LK AlOOO"); 
+	USART_Transmit(0x0d);
+
+	
+
+
+	// Main loop
+	while (1) {
+	//data=USART_Receive();
+	//USART_Transmit(data);
+	//USART_Transmit(0x0d);
+	
+		
+		
+	}
+	
+	return 0;
+}
