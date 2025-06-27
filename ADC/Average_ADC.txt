@@ -1,0 +1,55 @@
+#define F_CPU 8000000UL 
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdlib.h>
+
+
+void ADC_Init()
+{
+	DDRA=0x00;			/* Make ADC port as input */
+	ADCSRA = 0x87;			/* Enable ADC, fr/128  */
+	ADMUX = (1<<ADLAR);			/* Vref: Avcc, ADC channel: 0 */
+	
+}
+
+int ADC_Read(char channel)
+{
+	
+	int res;
+	ADMUX=ADMUX|(channel & 0x0f);	/* Set input channel to read */
+
+	ADCSRA |= (1<<ADSC);		/* Start conversion */
+	while((ADCSRA&(1<<ADIF))==0);	/* Monitor end of conversion interrupt */
+	
+	_delay_us(10);
+	res=ADCH;
+					
+				
+	return(res);			/* Return digital value*/
+}
+
+ 
+int main()
+{
+	
+	int val[10];
+	long sum;
+
+	ADC_Init();
+
+
+	while(1)
+	{
+	
+		sum=0;
+		for (int i=0;i<10;i++)
+		{
+		val[i]=ADC_Read(0);	/* Read ADC channel 0 */
+		_delay_us(100);
+		sum+=val[i];	
+		}
+		PORTC=sum;
+		_delay_ms(250);
+	}
+	return 0;
+}
